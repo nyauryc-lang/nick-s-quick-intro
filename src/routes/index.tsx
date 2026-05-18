@@ -2,25 +2,30 @@ import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
   component: Index,
+  head: () => ({
+    meta: [
+      { title: "Nick Yauri - Desarrollador" },
+      { name: "description", content: "Nick Yauri, estudiante y desarrollador." },
+    ],
+  }),
 });
 
-// IMPORTANT: Replace this placeholder. For sites with multiple pages (About, Services, Contact, etc.),
-// create separate route files (about.tsx, services.tsx, contact.tsx) — don't put all pages in this file.
-function PlaceholderIndex() {
+function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div>
+      <h1>Nick Yauri</h1>
+      <h2>Estudiante y Desarrollador</h2>
+      <p>Hola, soy Nick Yauri. Actualmente estudio y trabajo como desarrollador.</p>
+
+      <h3>Sobre mi</h3>
+      <ul>
+        <li>Nombre: Nick Yauri</li>
+        <li>Ocupacion: Estudiante</li>
+        <li>Profesion: Desarrollador</li>
+      </ul>
+
+      <h3>Que hago</h3>
+      <p>Me dedico al desarrollo de software y sigo aprendiendo cada dia.</p>
     </div>
   );
-}
-
-function Index() {
-  return <PlaceholderIndex />;
 }
