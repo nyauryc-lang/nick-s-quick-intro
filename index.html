@@ -1,36 +1,121 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Nick Yauri - Desarrollador</title>
-    <meta name="description" content="Presentación de Nick Yauri, estudiante y desarrollador." />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-    />
-  </head>
-  <body>
-    <main class="container py-5">
-      <div class="row justify-content-center">
-        <div class="col-md-8">
-          <h1 class="display-4">Hola, soy Nick Yauri</h1>
-          <h2 class="text-muted">Estudiante y Desarrollador</h2>
-          <p class="lead">Bienvenido a mi página de presentación.</p>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nick Yauri - Desarrollador</title>
+  <meta name="description" content="Presentación de Nick Yauri, estudiante y desarrollador." />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    .hero-bg {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 5rem 0;
+    }
+    .avatar {
+      width: 150px; height: 150px;
+      border-radius: 50%;
+      background: white;
+      color: #764ba2;
+      font-size: 4rem;
+      font-weight: bold;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.5rem;
+      transition: transform .4s ease, box-shadow .4s ease;
+      box-shadow: 0 10px 30px rgba(0,0,0,.2);
+    }
+    .avatar:hover { transform: scale(1.1) rotate(5deg); box-shadow: 0 15px 40px rgba(0,0,0,.35); }
+    .skill-card { transition: transform .3s ease, box-shadow .3s ease; border: none; }
+    .skill-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(118,75,162,.25); }
+    .btn-cta {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white; border: none;
+      transition: transform .3s ease, box-shadow .3s ease;
+    }
+    .btn-cta:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(118,75,162,.4); color: white; }
+    .fade-up { animation: fadeUp .8s ease both; }
+    @keyframes fadeUp { from{opacity:0; transform:translateY(20px);} to{opacity:1; transform:translateY(0);} }
+    .badge-skill { transition: transform .2s ease; cursor: default; }
+    .badge-skill:hover { transform: scale(1.15); }
+  </style>
+</head>
+<body>
+  <section class="hero-bg text-center">
+    <div class="container fade-up">
+      <div class="avatar">NY</div>
+      <h1 class="display-3 fw-bold">Hola, soy Nick Yauri</h1>
+      <p class="lead fs-4">Estudiante &amp; Desarrollador Web</p>
+      <a href="#contacto" class="btn btn-light btn-lg mt-3 px-4 shadow">Conóceme más</a>
+    </div>
+  </section>
 
-          <h3 class="mt-4">Sobre mí</h3>
-          <ul class="list-group mb-4">
-            <li class="list-group-item"><strong>Nombre:</strong> Nick Yauri</li>
-            <li class="list-group-item"><strong>Ocupación:</strong> Estudiante</li>
-            <li class="list-group-item"><strong>Profesión:</strong> Desarrollador</li>
-          </ul>
+  <section class="container py-5">
+    <div class="row justify-content-center text-center mb-5 fade-up">
+      <div class="col-md-8">
+        <h2 class="fw-bold mb-3">Sobre mí</h2>
+        <p class="text-muted fs-5">
+          Soy un apasionado por la tecnología, actualmente estudio y desarrollo
+          aplicaciones web modernas. Me encanta aprender y crear cosas nuevas.
+        </p>
+      </div>
+    </div>
 
-          <h3>¿Qué hago?</h3>
-          <p>Estudio y desarrollo aplicaciones web.</p>
-
-          <button class="btn btn-primary">Contáctame</button>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card skill-card h-100 shadow-sm">
+          <div class="card-body text-center p-4">
+            <div class="display-4 mb-3">🎓</div>
+            <h5 class="card-title fw-bold">Estudiante</h5>
+            <p class="card-text text-muted">Siempre aprendiendo nuevas tecnologías y mejorando mis habilidades.</p>
+          </div>
         </div>
       </div>
-    </main>
-  </body>
+      <div class="col-md-4">
+        <div class="card skill-card h-100 shadow-sm">
+          <div class="card-body text-center p-4">
+            <div class="display-4 mb-3">💻</div>
+            <h5 class="card-title fw-bold">Desarrollador</h5>
+            <p class="card-text text-muted">Creo aplicaciones web modernas, rápidas y atractivas.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card skill-card h-100 shadow-sm">
+          <div class="card-body text-center p-4">
+            <div class="display-4 mb-3">🚀</div>
+            <h5 class="card-title fw-bold">Creativo</h5>
+            <p class="card-text text-muted">Convierto ideas en proyectos reales con dedicación y pasión.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row justify-content-center mt-5">
+      <div class="col-md-8 text-center">
+        <h3 class="fw-bold mb-4">Habilidades</h3>
+        <div class="d-flex flex-wrap justify-content-center gap-2">
+          <span class="badge bg-primary fs-6 p-2 badge-skill">HTML</span>
+          <span class="badge bg-primary fs-6 p-2 badge-skill">CSS</span>
+          <span class="badge bg-primary fs-6 p-2 badge-skill">JavaScript</span>
+          <span class="badge bg-primary fs-6 p-2 badge-skill">React</span>
+          <span class="badge bg-primary fs-6 p-2 badge-skill">Bootstrap</span>
+          <span class="badge bg-primary fs-6 p-2 badge-skill">Node.js</span>
+          <span class="badge bg-primary fs-6 p-2 badge-skill">Git</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="contacto" class="row justify-content-center mt-5 pt-4">
+      <div class="col-md-6 text-center">
+        <h3 class="fw-bold mb-3">¿Trabajamos juntos?</h3>
+        <p class="text-muted">Estoy disponible para nuevos proyectos y oportunidades.</p>
+        <button class="btn btn-cta btn-lg px-5 py-3 fw-bold">Contáctame</button>
+      </div>
+    </div>
+  </section>
+
+  <footer class="text-center py-4 text-muted">
+    <small>© 2026 Nick Yauri · Hecho con ❤️ y Bootstrap</small>
+  </footer>
+</body>
 </html>
