@@ -9,6 +9,7 @@ import {
 } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
+import bootstrapCss from "bootstrap/dist/css/bootstrap.min.css?url";
 
 function NotFoundComponent() {
   return (
@@ -86,6 +87,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/8ad26079-de23-4759-99d4-2a58459459c7/id-preview-17a87477--3f00d173-38e8-4fe1-850b-74f3221c2542.lovable.app-1779129474082.png" },
     ],
     links: [
+      {
+        rel: "stylesheet",
+        href: bootstrapCss,
+      },
       {
         rel: "stylesheet",
         href: appCss,
