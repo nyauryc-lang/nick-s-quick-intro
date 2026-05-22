@@ -9,6 +9,7 @@ import {
 } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
+import bootstrapCss from "bootstrap/dist/css/bootstrap.min.css?url";
 
 function NotFoundComponent() {
   return (
