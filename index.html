@@ -7,46 +7,83 @@
   <meta name="description" content="Presentación de Nick Yauri, estudiante y desarrollador." />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
   <style>
-    .hero-bg {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      padding: 5rem 0;
+    *,*::before,*::after { box-sizing: border-box; }
+    body { margin: 0; }
+
+    /* HERO con bola de demolición */
+    .hero-stage {
+      position: relative; width: 100%; height: 100vh; overflow: hidden;
+      background:
+        conic-gradient(rgba(255,255,255,.1) 90deg, transparent 90deg 180deg, rgba(255,255,255,.1) 180deg 270deg, transparent 270deg),
+        linear-gradient(110deg, #4a6dff 0%, #7d3ad1 100%);
+      background-size: 40px 40px, 100% 100%;
+      user-select: none;
     }
-    .avatar {
-      width: 150px; height: 150px;
-      border-radius: 50%;
-      background: white;
-      color: #764ba2;
-      font-size: 4rem;
-      font-weight: bold;
+    .hero-stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; touch-action: none; }
+    .hero-overlay {
+      position: absolute; top: 0; left: 0; right: 0; z-index: 5;
+      padding: 4rem 1rem 0; text-align: center; color: #fff;
+      pointer-events: none; text-shadow: 0 4px 20px rgba(0,0,0,.4);
+    }
+    .hero-overlay .avatar {
+      width: 110px; height: 110px; border-radius: 50%;
+      background: #fff; color: #7d3ad1; font-size: 2.8rem; font-weight: 800;
       display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 1.5rem;
-      transition: transform .4s ease, box-shadow .4s ease;
-      box-shadow: 0 10px 30px rgba(0,0,0,.2);
+      margin: 0 auto 1rem; box-shadow: 0 10px 30px rgba(0,0,0,.35);
+      pointer-events: auto; transition: transform .4s ease;
     }
-    .avatar:hover { transform: scale(1.1) rotate(5deg); box-shadow: 0 15px 40px rgba(0,0,0,.35); }
+    .hero-overlay .avatar:hover { transform: scale(1.1) rotate(5deg); }
+    .hero-hint {
+      position: absolute; bottom: 24px; left: 0; right: 0; z-index: 5;
+      text-align: center; color: rgba(255,255,255,.85);
+      font-size: .9rem; letter-spacing: .08em; text-transform: uppercase;
+      pointer-events: none; animation: bounce 2s infinite;
+    }
+    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+
+    /* Reset button */
+    #reset {
+      position: absolute; top: 24px; right: 24px; z-index: 10;
+      display: inline-flex; align-items: center; gap: 6px;
+      height: 36px; padding: 0 14px 0 10px; border-radius: 18px;
+      background: rgba(0,0,0,.35); border: 1px solid rgba(255,255,255,.15);
+      backdrop-filter: blur(8px); cursor: pointer;
+      color: rgba(255,255,255,.75); font-size: 12px; font-weight: 500;
+      letter-spacing: .04em; text-transform: uppercase;
+      transition: background .15s ease, transform .15s ease, color .15s ease;
+    }
+    #reset svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform .4s cubic-bezier(.34,1.56,.64,1); }
+    #reset:hover { background: #7be3ff; color: #0a0a0a; }
+    #reset:hover svg { transform: rotate(180deg); }
+    #reset:active { transform: scale(.92); }
+
+    /* Resto de la página */
     .skill-card { transition: transform .3s ease, box-shadow .3s ease; border: none; }
-    .skill-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(118,75,162,.25); }
-    .btn-cta {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white; border: none;
-      transition: transform .3s ease, box-shadow .3s ease;
-    }
-    .btn-cta:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(118,75,162,.4); color: white; }
-    .fade-up { animation: fadeUp .8s ease both; }
-    @keyframes fadeUp { from{opacity:0; transform:translateY(20px);} to{opacity:1; transform:translateY(0);} }
+    .skill-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(125,58,209,.25); }
+    .btn-cta { background: linear-gradient(135deg, #4a6dff 0%, #7d3ad1 100%); color: white; border: none; transition: transform .3s ease, box-shadow .3s ease; }
+    .btn-cta:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(125,58,209,.4); color: white; }
     .badge-skill { transition: transform .2s ease; cursor: default; }
     .badge-skill:hover { transform: scale(1.15); }
+    .fade-up { animation: fadeUp .8s ease both; }
+    @keyframes fadeUp { from{opacity:0; transform:translateY(20px);} to{opacity:1; transform:translateY(0);} }
   </style>
 </head>
 <body>
-  <section class="hero-bg text-center">
-    <div class="container fade-up">
+  <section class="hero-stage">
+    <canvas id="stage"></canvas>
+    <button id="reset" type="button">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+        <path d="M3 3v5h5"></path>
+      </svg>
+      <span>Reset</span>
+    </button>
+    <div class="hero-overlay">
       <div class="avatar">NY</div>
       <h1 class="display-3 fw-bold">Hola, soy Nick Yauri</h1>
       <p class="lead fs-4">Estudiante &amp; Desarrollador Web</p>
-      <a href="#contacto" class="btn btn-light btn-lg mt-3 px-4 shadow">Conóceme más</a>
     </div>
+    <div class="hero-hint">↓ Arrastra la bola y derriba la torre · Desplázate para conocerme</div>
   </section>
 
   <section class="container py-5">
@@ -55,7 +92,8 @@
         <h2 class="fw-bold mb-3">Sobre mí</h2>
         <p class="text-muted fs-5">
           Soy un apasionado por la tecnología, actualmente estudio y desarrollo
-          aplicaciones web modernas. Me encanta aprender y crear cosas nuevas.
+          aplicaciones web modernas. Me encanta aprender y crear cosas nuevas...
+          ¡como una bola de demolición con física real!
         </p>
       </div>
     </div>
@@ -101,6 +139,7 @@
           <span class="badge bg-primary fs-6 p-2 badge-skill">Bootstrap</span>
           <span class="badge bg-primary fs-6 p-2 badge-skill">Node.js</span>
           <span class="badge bg-primary fs-6 p-2 badge-skill">Git</span>
+          <span class="badge bg-primary fs-6 p-2 badge-skill">Matter.js</span>
         </div>
       </div>
     </div>
@@ -115,7 +154,200 @@
   </section>
 
   <footer class="text-center py-4 text-muted">
-    <small>© 2026 Nick Yauri · Hecho con ❤️ y Bootstrap</small>
+    <small>© 2026 Nick Yauri · Hecho con ❤️, Bootstrap y Matter.js</small>
   </footer>
+
+  <script type="module">
+    import Matter from "https://esm.sh/matter-js@0.19.0";
+    const {
+      Engine, World, Bodies, Composite, Composites,
+      Constraint, Mouse, MouseConstraint, Events, Runner, Bounds, Vertices
+    } = Matter;
+
+    const THEME = {
+      palette: ["#ff3f70", "#ff7626", "#ffe600", "#33ff66", "#00f0ff", "#4a7dff", "#d645ff"],
+      ground: "#1a1a24",
+      chain: { shadow: "rgba(0,0,0,0.5)", stroke: "#2a2a2a", inner: "#6a6a72", highlight: "rgba(200,200,210,0.55)" }
+    };
+    const PHYSICS = {
+      brick: { restitution: 0, friction: 1, frictionAir: 0.09, frictionStatic: 10, density: 0.03, slop: 0 },
+      ball:  { density: 1.2, friction: 0.6, frictionStatic: 10, frictionAir: 0.005, restitution: 0.04, slop: 0 }
+    };
+    const GEO = { brickWidth: 45, brickHeight: 20, towerCols: 5, anchorX: 0.35, anchorY: -50, linkLen: 18, floorPadding: 40, floorThickness: 200 };
+
+    const canvas = document.getElementById("stage");
+    const container = canvas.parentElement;
+    const state = { engine: null, world: null, canvas, ctx: null, mouseConstraint: null, ball: null, chain: null, width: 0, height: 0 };
+
+    const dist = (p1, p2) => Math.hypot(p2.x - p1.x, p2.y - p1.y);
+    const withCtx = (ctx, fn) => { ctx.save(); fn(); ctx.restore(); };
+    const getRelativePt = (body, offset) => body ? { x: body.position.x + offset.x, y: body.position.y + offset.y } : offset;
+
+    const createWall  = (x, y, w, h, opts = {}) => Bodies.rectangle(x, y, w, h, { isStatic: true, ...opts });
+    const createBrick = (x, y, w, h, row) => Bodies.rectangle(x, y, w, h, { ...PHYSICS.brick, label: "brick", renderColor: THEME.palette[row % THEME.palette.length] });
+    const createBall  = (x, y, radius) => Bodies.circle(x, y, radius, { ...PHYSICS.ball, label: "ball", collisionFilter: { category: 0x0002, mask: 0xffffffff } }, 64);
+    const createChain = (x, y, body, length) => Constraint.create({ pointA: { x, y }, bodyB: body, stiffness: 1, damping: 0.05, length, render: { visible: true } });
+
+    const buildScene = () => {
+      const { width, height } = state;
+      const anchorXPos = width * GEO.anchorX;
+      const initialChainLength = height * 0.7;
+      const ballRadius = Math.min(width * 0.08, 60);
+      const floorTop = height - GEO.floorPadding;
+      const floorY = floorTop + GEO.floorThickness / 2;
+      const ground = createWall(width / 2, floorY, width * 2, GEO.floorThickness, { friction: 1, frictionStatic: 10, renderColor: THEME.ground });
+      const bounds = [
+        createWall(-50, height / 2, 100, height * 2),
+        createWall(width + 50, height / 2, 100, height * 2),
+        createWall(width / 2, -150, width * 2, 100),
+      ];
+      const ball = createBall(anchorXPos, GEO.anchorY + initialChainLength, ballRadius);
+      const chain = createChain(anchorXPos, GEO.anchorY, ball, initialChainLength);
+      const towerRows = Math.max(1, Math.floor((height * 0.6) / GEO.brickHeight));
+      const towerWidth = GEO.towerCols * GEO.brickWidth;
+      const towerHeight = towerRows * GEO.brickHeight;
+      const startX = width * 0.6 - towerWidth / 2 + GEO.brickWidth / 2;
+      const startY = floorTop - towerHeight + GEO.brickHeight / 2;
+      const tower = Composites.stack(startX, startY, GEO.towerCols, towerRows, 0, 0, (x, y, _c, row) => createBrick(x, y, GEO.brickWidth, GEO.brickHeight, row));
+      World.add(state.world, [ground, ...bounds, ball, chain, tower]);
+      Object.assign(state, { ball, chain });
+    };
+
+    const attachInteractivity = () => {
+      if (!state.mouseConstraint) {
+        state.mouseConstraint = MouseConstraint.create(state.engine, {
+          mouse: Mouse.create(state.canvas),
+          collisionFilter: { mask: 0x0002 },
+          constraint: { stiffness: 0.9, angularStiffness: 0.9, render: { visible: false } }
+        });
+        Events.on(state.engine, "beforeUpdate", () => {
+          const body = state.mouseConstraint.body;
+          if (body?.label !== "ball") return;
+          const anchorXPos = state.width * GEO.anchorX;
+          const dragDist = dist({ x: anchorXPos, y: GEO.anchorY }, body.position);
+          const maxLen = state.height - GEO.floorPadding - GEO.anchorY - body.circleRadius - 15;
+          state.chain.length = Math.min(dragDist, maxLen);
+          state.chain.pointA = { x: anchorXPos, y: GEO.anchorY };
+        });
+      }
+      World.add(state.world, state.mouseConstraint);
+    };
+
+    const init = () => {
+      const ctx = canvas.getContext("2d", { alpha: true });
+      if (!state.engine) {
+        state.engine = Engine.create({ enableSleeping: false, positionIterations: 12, velocityIterations: 6, constraintIterations: 8 });
+        state.world = state.engine.world;
+        Runner.run(Runner.create(), state.engine);
+      }
+      state.width = canvas.width = container.clientWidth;
+      state.height = canvas.height = container.clientHeight;
+      state.ctx = ctx;
+      Engine.clear(state.engine);
+      World.clear(state.world);
+      state.engine.gravity.y = 1.2;
+      buildScene();
+      attachInteractivity();
+    };
+
+    const getCursorState = () => {
+      if (state.mouseConstraint.body) return "grabbing";
+      const pos = state.mouseConstraint.mouse.position;
+      const isHover = pos && Bounds.contains(state.ball.bounds, pos) && Vertices.contains(state.ball.vertices, pos);
+      return isHover ? "grab" : "default";
+    };
+
+    const drawLink = (ctx, isEven) => {
+      const radiusY = isEven ? 1 : 3.5;
+      const drawEllipse = (yOffset, stroke, lineWidth) => {
+        ctx.beginPath(); ctx.ellipse(0, yOffset, 8, radiusY, 0, 0, Math.PI * 2);
+        ctx.strokeStyle = stroke; ctx.lineWidth = lineWidth; ctx.stroke();
+      };
+      drawEllipse(1.5, THEME.chain.shadow, 5);
+      drawEllipse(0, THEME.chain.stroke, 5);
+      drawEllipse(0, THEME.chain.inner, 3);
+      withCtx(ctx, () => {
+        ctx.beginPath(); ctx.ellipse(0, 0, 8, radiusY, 0, Math.PI, Math.PI * 2);
+        ctx.strokeStyle = THEME.chain.highlight; ctx.lineWidth = 1.5; ctx.stroke();
+      });
+    };
+
+    const drawChains = () => {
+      Composite.allConstraints(state.world).filter(c => c.render.visible).forEach(c => {
+        const p1 = getRelativePt(c.bodyA, c.pointA);
+        const p2 = getRelativePt(c.bodyB, c.pointB ?? { x: 0, y: 0 });
+        const length = dist(p1, p2);
+        const angle = Math.atan2(p2.y - p1.y, p2.x - p1.x);
+        const linksCount = Math.max(1, Math.round(length / GEO.linkLen));
+        const step = length / linksCount;
+        withCtx(state.ctx, () => {
+          state.ctx.translate(p1.x, p1.y); state.ctx.rotate(angle);
+          [0, 1].forEach(offset => {
+            for (let i = offset; i < linksCount; i += 2) {
+              withCtx(state.ctx, () => {
+                state.ctx.translate((i + 0.5) * step, 0);
+                drawLink(state.ctx, i % 2 === 0);
+              });
+            }
+          });
+        });
+      });
+    };
+
+    const drawBall = (body) => {
+      withCtx(state.ctx, () => {
+        state.ctx.translate(body.position.x, body.position.y); state.ctx.rotate(body.angle);
+        state.ctx.beginPath();
+        body.vertices.forEach((v, i) => state.ctx[i ? "lineTo" : "moveTo"](v.x - body.position.x, v.y - body.position.y));
+        state.ctx.closePath();
+        const r = body.circleRadius;
+        const g = state.ctx.createRadialGradient(-r * 0.3, -r * 0.3, r * 0.1, 0, 0, r);
+        g.addColorStop(0, "#999"); g.addColorStop(0.5, "#333"); g.addColorStop(1, "#0a0a0a");
+        state.ctx.fillStyle = g; state.ctx.fill();
+      });
+    };
+
+    const drawPolygon = (body) => {
+      withCtx(state.ctx, () => {
+        state.ctx.beginPath();
+        body.vertices.forEach((v, i) => state.ctx[i ? "lineTo" : "moveTo"](v.x, v.y));
+        state.ctx.closePath();
+        state.ctx.fillStyle = body.renderColor; state.ctx.fill();
+        if (body.label === "brick") {
+          state.ctx.clip();
+          state.ctx.strokeStyle = "rgba(0,0,0,0.4)"; state.ctx.lineWidth = 4; state.ctx.stroke();
+          state.ctx.strokeStyle = "rgba(255,255,255,0.3)"; state.ctx.lineWidth = 2; state.ctx.stroke();
+        }
+      });
+    };
+
+    const drawInteractionLine = () => {
+      const { mouse, body, pointA } = state.mouseConstraint;
+      if (!body || mouse.button !== 0) return;
+      withCtx(state.ctx, () => {
+        state.ctx.beginPath();
+        state.ctx.moveTo(mouse.position.x, mouse.position.y);
+        state.ctx.lineTo(body.position.x + (pointA?.x || 0), body.position.y + (pointA?.y || 0));
+        state.ctx.strokeStyle = "rgba(255,255,255,0.8)"; state.ctx.lineWidth = 2; state.ctx.setLineDash([5, 5]); state.ctx.stroke();
+      });
+    };
+
+    const tick = () => {
+      requestAnimationFrame(tick);
+      state.ctx.clearRect(0, 0, state.width, state.height);
+      canvas.style.cursor = getCursorState();
+      drawChains();
+      Composite.allBodies(state.world).forEach(body =>
+        body.label === "ball" ? drawBall(body) : body.renderColor && drawPolygon(body)
+      );
+      drawInteractionLine();
+    };
+
+    window.addEventListener("resize", init);
+    document.getElementById("reset")?.addEventListener("click", init);
+
+    init();
+    requestAnimationFrame(tick);
+  </script>
 </body>
 </html>
