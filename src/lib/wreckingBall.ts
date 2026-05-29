@@ -5,7 +5,7 @@ export async function mountWreckingBall(
   canvas: HTMLCanvasElement,
   resetBtn?: HTMLButtonElement | null,
 ) {
-  const Matter = await import("https://esm.sh/matter-js@0.19.0");
+  const Matter = await import("matter-js");
   const {
     Engine, World, Bodies, Composite, Composites,
     Constraint, Mouse, MouseConstraint, Events, Runner, Bounds, Vertices
